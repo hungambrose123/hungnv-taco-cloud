@@ -1,0 +1,35 @@
+package learning.tacocloud.hungnv.data;
+
+import java.util.Optional;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import learning.tacocloud.hungnv.entity.Ingredient;
+
+public class JdbcIngredientRepository implements IngredientRepository{
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcIngredientRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public Iterable<Ingredient> findAll() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+
+    @Override
+    public Optional<Ingredient> findById(String id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public Ingredient save(Ingredient ingredient) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    }
+    
+
+}

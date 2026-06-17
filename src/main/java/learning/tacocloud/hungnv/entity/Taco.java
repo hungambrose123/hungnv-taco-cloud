@@ -1,5 +1,6 @@
 package learning.tacocloud.hungnv.entity;
 
+import java.sql.Date;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
@@ -8,10 +9,12 @@ import lombok.Data;
 
 @Data
 public class Taco {
+	private Long id;
 	@NotNull
 	@Size(min = 5, message = "Taco name must be at least 5 character")
 	private String name;
 	@NotNull
 	@Size(min = 5, message = "You must choose at least 1 ingredient")
 	private List<Ingredient> ingredients;
+	private Date createdAt = new Date(0);
 }

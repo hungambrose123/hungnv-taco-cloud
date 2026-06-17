@@ -1,5 +1,6 @@
 package learning.tacocloud.hungnv.entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import lombok.Data;
 
 @Data
 public class TacoOrder {
+	private static final long serialVersionUID = 1L;
+	private Long id; 
 	@NotBlank
 	private String deliveryName;
 	@NotBlank
@@ -24,10 +27,11 @@ public class TacoOrder {
 	private String deliveryZip;
 	@CreditCardNumber(message = "Not a credit card number")	
 	private String ccNumber;
-	@Pattern(regexp = "0[1-9]|1[0-2]([\\/])([1-9][0-9]$", message = "Must be a formatted MM/YY")
+	@Pattern(regexp = "0[1-9]|1[0-2]([\\/])([1-9][0-9])$", message = "Must be a formatted MM/YY")
 	private String ccExpiration;
 	@Digits(integer = 3, fraction = 0, message = "Invalid CVV")
 	private String ccCVV;
+	private Date placedAt;
 	
 	private List<Taco> tacos = new ArrayList<>();
 	
