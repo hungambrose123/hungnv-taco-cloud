@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.validation.Valid;
+import learning.tacocloud.hungnv.data.IngredientRepository;
 import learning.tacocloud.hungnv.entity.Ingredient;
 import learning.tacocloud.hungnv.entity.Ingredient.Type;
 import learning.tacocloud.hungnv.entity.Taco;
@@ -24,20 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
+
+  private IngredientRepository ingredientRepository;
+
 @ModelAttribute
 public void addIngredientsToModel(Model model) {
-    List<Ingredient> ingredients = Arrays.asList(
-      new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
-      new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
-      new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-      new Ingredient("CARN", "Carnitas", Type.PROTEIN),
-      new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-      new Ingredient("LETC", "Lettuce", Type.VEGGIES),
-      new Ingredient("CHED", "Cheddar", Type.CHEESE),
-      new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
-      new Ingredient("SLSA", "Salsa", Type.SAUCE),
-      new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
-    );
+    Iterable<Ingredient> ingredients = ingredientRepository.findAll();
     Type[] types = Ingredient.Type.values();
     for (Type type : types) {
       model.addAttribute(type.toString().toLowerCase(),
