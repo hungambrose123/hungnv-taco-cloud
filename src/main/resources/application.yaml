@@ -1,0 +1,8 @@
+spring:
+  application:
+    name:hungnv-taco-cloud
+  datasource:
+    url: jdbc:h2:file:./data.sql
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password

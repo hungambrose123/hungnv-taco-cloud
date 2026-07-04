@@ -1,5 +1,6 @@
 package learning.tacocloud.hungnv.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
 import jakarta.validation.Valid;
-import learning.tacocloud.hungnv.data.OrderRepository;
-import learning.tacocloud.hungnv.entity.TacoOrder;
+import learning.tacocloud.hungnv.repository.OrderRepository;
+import learning.tacocloud.hungnv.domain.TacoOrder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/orders")
 public class OrderController {
 
+    @Autowired
     private OrderRepository orderRepository;
 
     public OrderController(OrderRepository orderRepository){

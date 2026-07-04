@@ -1,8 +1,9 @@
 package learning.tacocloud.hungnv.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.validation.Valid;
-import learning.tacocloud.hungnv.data.IngredientRepository;
-import learning.tacocloud.hungnv.entity.Ingredient;
-import learning.tacocloud.hungnv.entity.Ingredient.Type;
-import learning.tacocloud.hungnv.entity.Taco;
+import learning.tacocloud.hungnv.repository.IngredientRepository;
+import learning.tacocloud.hungnv.domain.Ingredient;
+import learning.tacocloud.hungnv.domain.Ingredient.Type;
+import learning.tacocloud.hungnv.domain.Taco;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
 
+  @Autowired
   private IngredientRepository ingredientRepository;
 
 @ModelAttribute
@@ -34,7 +36,7 @@ public void addIngredientsToModel(Model model) {
     Type[] types = Ingredient.Type.values();
     for (Type type : types) {
       model.addAttribute(type.toString().toLowerCase(),
-          filterByType(ingredients, type));
+          filterByType((List<Ingredient>) ingredients, type));
     }
 }
   @GetMapping

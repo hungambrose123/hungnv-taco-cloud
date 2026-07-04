@@ -1,27 +1,26 @@
-package learning.tacocloud.hungnv.entity;
+package learning.tacocloud.hungnv.domain;
 
-import java.io.Serializable;
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.CreditCardNumber;
-
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
 @Entity
-public class TacoOrder implements Serializable{
-	private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@AllArgsConstructor
+public class TacoOrder{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id; 
+	private Long id;
 	@NotBlank
 	private String deliveryName;
 	@NotBlank
@@ -38,12 +37,9 @@ public class TacoOrder implements Serializable{
 	private String ccExpiration;
 	@Digits(integer = 3, fraction = 0, message = "Invalid CVV")
 	private String ccCVV;
-	private Date placedAt;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Taco> tacos = new ArrayList<>();
-	
-	public void addTaco(Taco taco) {
-		this.tacos.add(taco);
-	}
+	private Date placedAt = new Date();
+
+	@OneToMany
+	List<Taco> tacos = new ArrayList<>();
 }

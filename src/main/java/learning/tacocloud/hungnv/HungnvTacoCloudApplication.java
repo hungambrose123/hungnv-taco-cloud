@@ -1,35 +1,58 @@
 package learning.tacocloud.hungnv;
 
-import learning.tacocloud.hungnv.data.IngredientRepository;
-import learning.tacocloud.hungnv.entity.Ingredient;
-import learning.tacocloud.hungnv.entity.Ingredient.Type;
-import org.springframework.boot.ApplicationRunner;
+import learning.tacocloud.hungnv.domain.Ingredient.Type;
+import learning.tacocloud.hungnv.service.IngredientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class HungnvTacoCloudApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(HungnvTacoCloudApplication.class, args);
 	}
 
+	@Autowired
+	IngredientService ingredientService;
+
+//	@Bean
+//	public CommandLineRunner dataLoader(){
+//		return args -> {
+//			ingredientService.createIngredient("Flour Tortilla", Type.WRAP);
+//			ingredientService.createIngredient("Corn Tortilla", Type.WRAP);
+//			ingredientService.createIngredient("Ground Beef", Type.PROTEIN);
+//			ingredientService.createIngredient("Carnitas", Type.PROTEIN);
+//			ingredientService.createIngredient("Diced Tomatoes", Type.VEGGIES);
+//			ingredientService.createIngredient("Lettuce", Type.VEGGIES);
+//			ingredientService.createIngredient("Cheddar", Type.CHEESE);
+//			ingredientService.createIngredient("Monterrey Jack", Type.CHEESE);
+//			ingredientService.createIngredient("Salsa", Type.SAUCE);
+//			ingredientService.createIngredient("Sour Cream", Type.SAUCE);
+//		};
+//	}
+
 	@Bean
-	public CommandLineRunner dataLoader(IngredientRepository repo){
-		return args -> {
-			repo.save(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
-			repo.save(new Ingredient("COTO", "Corn Tortilla", Type.WRAP));
-			repo.save(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN));
-			repo.save(new Ingredient("CARN", "Carnitas", Type.PROTEIN));
-			repo.save(new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES));
-			repo.save(new Ingredient("LETC", "Lettuce", Type.VEGGIES));
-			repo.save(new Ingredient("CHED", "Cheddar", Type.CHEESE));
-			repo.save(new Ingredient("JACK", "Monterrey Jack", Type.CHEESE));
-			repo.save(new Ingredient("SLSA", "Salsa", Type.SAUCE));
-			repo.save(new Ingredient("SRCR", "Sour Cream", Type.SAUCE));
-		};
+	public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+		List<UserDetails> usersList = new ArrayList<>();
+		usersList.add(new User(
+				"buzz", encoder.encode("password"),
+				Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))));
+		usersList.add(new User(
+				"woody", encoder.encode("password"),
+				Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))));
+		return new InMemoryUserDetailsManager(usersList);
 	}
 
 }

@@ -1,20 +1,21 @@
-package learning.tacocloud.hungnv.entity;
+package learning.tacocloud.hungnv.domain;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Taco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +27,10 @@ public class Taco {
 
 	private Date createdAt = new Date(0);
 
-	@NotNull
 	@Size(min = 5, message = "You must choose at least 1 ingredient")
-	@ManyToMany
+	@OneToMany
 	private List<Ingredient> ingredients = new ArrayList<>();
 
-	public void addIngredient(Ingredient ingredient){
-		this.ingredients.add(ingredient);
-	}
+	@ManyToOne(cascade = CascadeType.ALL)
+	private TacoOrder tacoOrder;
 }
