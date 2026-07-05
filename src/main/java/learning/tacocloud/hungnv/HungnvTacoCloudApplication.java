@@ -1,6 +1,7 @@
 package learning.tacocloud.hungnv;
 
 import learning.tacocloud.hungnv.domain.Ingredient.Type;
+import learning.tacocloud.hungnv.repository.UserRepository;
 import learning.tacocloud.hungnv.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
@@ -53,6 +55,17 @@ public class HungnvTacoCloudApplication {
 				"woody", encoder.encode("password"),
 				Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"))));
 		return new InMemoryUserDetailsManager(usersList);
+	}
+
+	@Bean
+	public UserDetailsService userDetailsService(UserRepository userRepository){
+		return username -> {
+			learning.tacocloud.hungnv.domain.User user = userRepository.findByUsername(username);
+			if(user != null){
+				return user;
+			}
+			throw new UsernameNotFoundException("User "+ username + " not found.");
+		};
 	}
 
 }
